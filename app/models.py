@@ -11,8 +11,18 @@ class Entry(db.Model):
     title = db.Column(db.String(100))
     slug = db.Column(db.String(100), unique=True)
     body = db.Column(db.Text)
+    created_timestamp = db.Column(db.DateTime)  # default=datetime.datetime.now
+    modified_timestamp = db.column(db.DateTime) #default=datetime.datetime.now,, onupdate=datetime.datetime.now
     
-    
-    
-    
-    
+    def __init__(self,*args,**kwargs):
+        super(Entry,self).__init__(*args,**kwargs) #call parent constructer
+        self.generate_slug()
+        
+    def generate_slug(self):
+        self.slug = ''
+        if self.title:
+            self.slug = slugify(self.title)
+            
+    def __repr__(self):
+        return '<Entry: %s' % self.title
+            
