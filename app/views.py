@@ -5,13 +5,18 @@ Created on Tue Jan 17 13:49:17 2017
 @author: manish
 """
 from app import app
+from flask import render_template, request
 import feedparser
 
 
 
 @app.route('/')
 def homepage():
-    return 'Home page'
+    name = request.args.get('name')
+    if not name:
+        name = '<unknown>'
+    return render_template('homepage.html',name=name)
+    
     
 
 BBC_FEED = "http://feeds.bbci.co.uk/news/rss.xml"
